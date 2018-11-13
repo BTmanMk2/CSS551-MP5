@@ -13,4 +13,14 @@ public class MyMesh : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void VertexCtrlOn()
+    {
+
+    }
+
+    public void VertexCtrlOff()
+    {
+
+    }
 }
