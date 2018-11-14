@@ -13,6 +13,8 @@ public class MainController : MonoBehaviour
 
     // selected mover axis
     private GameObject mSelectedAxis;
+    // selected mover
+    private VertexTranslate mSelectedVertexTranslate;
 
     // Use this for initialization
     void Start()
@@ -94,62 +96,76 @@ public class MainController : MonoBehaviour
                 bool hit = Physics.Raycast(mCamera4RayCast.ScreenPointToRay(
                         Input.mousePosition), out hitInfo, Mathf.Infinity, 1 << 9);
 
+                // click on vertex ctrller or mover 
                 if (hit)
                 {
                     GameObject hitObject = hitInfo.transform.gameObject;
 
-                    VertexCtrl vCtrl = hitObject.GetComponent<VertexCtrl>();
-                    if (vCtrl != null)
+                    VertexNode vNode = hitObject.GetComponent<VertexNode>();
+                    // click on vertex ctrl
+                    if (vNode != null)
                     {
                         // switch mover on
                     }
+
+                    // click on mover axis
                     else
                     {
-                        VertexTranslate vTranslate = hitObject.GetComponent<VertexTranslate>();
-                        if (vTranslate != null)
+                        mSelectedVertexTranslate = hitObject.GetComponent<VertexTranslate>();
+                        if (mSelectedVertexTranslate != null)
                         {
                             // set initial translate position
                             mSelectedAxis = hitObject;
 
                             Vector3 point = new Vector3();
-                            Event currentEvent = Event.current;
-                            Vector2 mousePos = new Vector2();
+                            Vector2 mousePos = new Vector2
+                            {
+                                x = Input.mousePosition.x,
+                                y = mCamera4RayCast.pixelHeight - Input.mousePosition.y
+                            };
 
                             // Get the mouse position from Event.
                             // Note that the y position from Event is inverted.
-                            mousePos.x = currentEvent.mousePosition.x;
-                            mousePos.y = mCamera4RayCast.pixelHeight - currentEvent.mousePosition.y;
 
                             point = mCamera4RayCast.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y,
                                 mCamera4RayCast.nearClipPlane));
-
+                            mSelectedVertexTranslate.LMBPress(point);
 
                         }
                     }
-                    
-
-
-
                 }
-            }else if (Input.GetMouseButton(0))
-            {
-                RaycastHit hitInfo = new RaycastHit();
-
-                // clickable objects are on layer 9
-                bool hit = Physics.Raycast(mCamera4RayCast.ScreenPointToRay(
-                        Input.mousePosition), out hitInfo, Mathf.Infinity, 1 << 9);
-
-                if (hit)
+                else
                 {
-                    GameObject hitObject = hitInfo.transform.gameObject;
+                    // switch mover off
 
                 }
-            }else if (Input.GetMouseButtonUp(0))
+            }
+            // drag support
+            else if (Input.GetMouseButton(0))
             {
+                Vector3 point = new Vector3();
+                Vector2 mousePos = new Vector2
+                {
+                    x = Input.mousePosition.x, y = mCamera4RayCast.pixelHeight - Input.mousePosition.y
+                };
 
+                // Get the mouse position from Event.
+                // Note that the y position from Event is inverted.
+
+                point = mCamera4RayCast.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y,
+                    mCamera4RayCast.nearClipPlane));
+
+                mSelectedVertexTranslate.LMBMove(point);
+            }
+            // release LMB
+            else if (Input.GetMouseButtonUp(0))
+            {
+                mSelectedVertexTranslate.LMBRelease();
+                mSelectedVertexTranslate = null;
             }
 
         }
+        // release LCTRL
         else
         {
             mMesh.VertexCtrlOff();
