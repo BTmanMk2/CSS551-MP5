@@ -121,11 +121,9 @@ public class MainController : MonoBehaviour
                             Vector2 mousePos = new Vector2
                             {
                                 x = Input.mousePosition.x,
-                                y = mCamera4RayCast.pixelHeight - Input.mousePosition.y
+                                y = Input.mousePosition.y
+                                //mCamera4RayCast.pixelHeight - 
                             };
-
-                            // Get the mouse position from Event.
-                            // Note that the y position from Event is inverted.
 
                             point = mCamera4RayCast.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y,
                                 mCamera4RayCast.nearClipPlane));
@@ -143,24 +141,30 @@ public class MainController : MonoBehaviour
             // drag support
             else if (Input.GetMouseButton(0))
             {
-                Vector3 point = new Vector3();
-                Vector2 mousePos = new Vector2
+                if (mSelectedVertexTranslate)
                 {
-                    x = Input.mousePosition.x, y = mCamera4RayCast.pixelHeight - Input.mousePosition.y
-                };
+                    Vector3 point = new Vector3();
+                    Vector2 mousePos = new Vector2
+                    {
+                        x = Input.mousePosition.x,
+                        y = Input.mousePosition.y
+                        //mCamera4RayCast.pixelHeight -
+                    };
 
-                // Get the mouse position from Event.
-                // Note that the y position from Event is inverted.
+                    point = mCamera4RayCast.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y,
+                        mCamera4RayCast.nearClipPlane));
 
-                point = mCamera4RayCast.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y,
-                    mCamera4RayCast.nearClipPlane));
-
-                mSelectedVertexTranslate.LMBMove(point);
+                    mSelectedVertexTranslate.LMBMove(point);
+                }
+                
             }
             // release LMB
             else if (Input.GetMouseButtonUp(0))
             {
-                mSelectedVertexTranslate.LMBRelease();
+                if (mSelectedVertexTranslate != null)
+                {
+                    mSelectedVertexTranslate.LMBRelease();
+                }
                 mSelectedVertexTranslate = null;
             }
 

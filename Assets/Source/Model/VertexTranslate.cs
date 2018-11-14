@@ -40,7 +40,7 @@ public class VertexTranslate : MonoBehaviour
     {
         Vector3 delta = point - lastLMBPos;
         lastLMBPos = point;
-
+        
         switch (axis)
         {
             case Axis.X:
@@ -50,6 +50,7 @@ public class VertexTranslate : MonoBehaviour
             case Axis.Y:
                 delta.x = 0;
                 delta.z = 0;
+                //delta.y = -delta.y;
                 break;
             case Axis.Z:
                 delta.x = 0;
@@ -58,7 +59,7 @@ public class VertexTranslate : MonoBehaviour
         }
 
         delta *= moveMagnifier;
-
+        //Debug.Log(delta);
         // move vertex
         this.transform.localPosition += delta;
     }
