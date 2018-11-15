@@ -54,7 +54,7 @@ public class MyCamera : MonoBehaviour {
         float yAngle = Mathf.Acos(Vector3.Dot(front.normalized, transform.forward))
                        * s * Mathf.Rad2Deg;
         yAngle += -0.1f * delta.y;
-        if (Mathf.Abs(yAngle) > 75)
+        if (Mathf.Abs(yAngle) > 85)
         {
             qy = Quaternion.identity;
         }

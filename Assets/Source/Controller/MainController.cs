@@ -11,8 +11,6 @@ public class MainController : MonoBehaviour
 
     public MyMesh mMesh;
 
-    // selected mover axis
-    private GameObject mSelectedAxis;
     // selected mover
     private VertexTranslate mSelectedVertexTranslate;
 
@@ -115,7 +113,7 @@ public class MainController : MonoBehaviour
                         if (mSelectedVertexTranslate != null)
                         {
                             // set initial translate position
-                            mSelectedAxis = hitObject;
+                            
 
                             Vector3 point = new Vector3();
                             Vector2 mousePos = new Vector2
