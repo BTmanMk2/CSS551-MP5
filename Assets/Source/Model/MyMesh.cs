@@ -85,13 +85,13 @@ public partial class MyMesh : MonoBehaviour {
 	    InitNormals(v, n);
 	}
 
-	void SetXSize(int x)
+	public void SetXSize(int x)
 	{
 		xSize = x;
 		InitializeMeshQuad();
 	}
 
-	void SetYSize(int y)
+	public void SetYSize(int y)
 	{
 		ySize = y;
 		InitializeMeshQuad();

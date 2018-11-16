@@ -12,6 +12,8 @@ public class MainController : MonoBehaviour
     public MyMesh mMesh;
 	public TheWorld mWorld;
 
+	public MeshController mMeshController;
+
     // selected mover
     private VertexTranslate mSelectedVertexTranslate;
 
@@ -21,7 +23,9 @@ public class MainController : MonoBehaviour
         Debug.Assert(mCamera != null);
         Debug.Assert(mMesh!=null);
 	    Debug.Assert(mWorld != null);
+	    Debug.Assert(mMeshController != null);
         mCamera4RayCast = mCamera.GetComponent<Camera>();
+		mMeshController.SetSelectedMesh(mMesh);
     }
 
     // Update is called once per frame

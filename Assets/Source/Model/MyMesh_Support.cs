@@ -68,6 +68,7 @@ partial class MyMesh: MonoBehaviour {
     //initialize the cylinder on the sphere of each vertex
     void InitNormals(Vector3[] v, Vector3[] n)
     {
+		ClearNormals();
         mNormals = new LineSegment[v.Length];
         for (int i = 0; i < v.Length; i++)
         {
@@ -87,6 +88,21 @@ partial class MyMesh: MonoBehaviour {
             mNormals[i].SetEndPoints(v[i], v[i] + 1.0f * n[i]);
         }
     }
+
+	void ClearNormals()
+	{
+		if (mNormals != null)
+		{
+			for (int i = 0; i < mNormals.Length; i++)
+			{
+				if (mNormals[i] != null)
+				{
+					Destroy(mNormals[i].gameObject);
+				}
+			}
+		}
+		
+	}
 
 	public void DisableNormals()
 	{

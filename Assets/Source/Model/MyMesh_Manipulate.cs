@@ -8,6 +8,7 @@ partial class MyMesh : MonoBehaviour {
 
     void InitControllers(Vector3[] v)
     {
+		ClearControllers();
         mControllers = new VertexController[v.Length];
         for (int i = 0; i < v.Length; i++)
         {
@@ -20,6 +21,21 @@ partial class MyMesh : MonoBehaviour {
 	        mControllers[i] = temp.GetComponent<VertexController>();
         }
     }
+
+	void ClearControllers()
+	{
+		if (mControllers!=null)
+		{
+			for (int i = 0; i < mControllers.Length; i++)
+			{
+				if (mControllers[i] != null)
+				{
+					Destroy(mControllers[i].gameObject);
+				}
+			}
+		}
+		
+	}
 
 
 	public void DisableControllers()

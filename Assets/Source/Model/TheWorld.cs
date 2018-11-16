@@ -25,13 +25,14 @@ public class TheWorld : MonoBehaviour
 		mQuadVertexMover.SetActive(true);
 
 		// if quad or cylinder
-
-		ctrller.Selected(mQuadVertexMover);
 		if (prevQuadCtrller)
 		{
 			prevQuadCtrller.Unselected();
 		}
 		prevQuadCtrller = ctrller;
+
+		ctrller.Selected(mQuadVertexMover);
+		
 	}
 
 	public void AssignMover()
