@@ -4,6 +4,8 @@ using UnityEngine;
 
 partial class MyMesh : MonoBehaviour {
     GameObject[] mControllers;
+
+
     void InitControllers(Vector3[] v)
     {
         mControllers = new GameObject[v.Length];
@@ -16,4 +18,15 @@ partial class MyMesh : MonoBehaviour {
             mControllers[i].transform.parent = this.transform;
         }
     }
+
+
+	public void VertexCtrlOn()
+	{
+
+	}
+
+	public void VertexCtrlOff()
+	{
+
+	}
 }

@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 partial class MyMesh: MonoBehaviour {
-    Vector3 FaceNormal(Vector3[] v, int i0, int i1, int i2)
+	LineSegment[] mNormals;
+
+	Vector3 FaceNormal(Vector3[] v, int i0, int i1, int i2)
     {
         Vector3 a = v[i1] - v[i0];
         Vector3 b = v[i2] - v[i0];
         return Vector3.Cross(a, b).normalized;
     }
+
+
     void SetFacenormal(Vector3[] v, int xsize, int ysize, Vector3[] trinormals)
     {
         for (int tn = 0, vi = 0, y = 0; y < ysize; y++, vi++)
@@ -20,6 +24,8 @@ partial class MyMesh: MonoBehaviour {
             }
         }
     }
+
+
     List<int> FindTriangles(int[] t, int tempv)
     {
         List<int> tempresult=new List<int>();
@@ -30,6 +36,8 @@ partial class MyMesh: MonoBehaviour {
         }
         return tempresult;
     }
+
+
     Vector3 TrianglesToNormals(List<int> triangles,Vector3[] triNormals)
     {
         Vector3 tempn=new Vector3();
@@ -43,7 +51,7 @@ partial class MyMesh: MonoBehaviour {
 
     void ComputeNormals(Vector3[] v,int[] t, Vector3[] n)
     {
-        Vector3[] triNormals = new Vector3[xSize * ySize*2];//each triangle's noraml
+        Vector3[] triNormals = new Vector3[xSize * ySize*2];//each triangle's normal
         SetFacenormal(v, xSize, ySize, triNormals);
 
         //now we need to use triNormals to update each vertex's normal
@@ -52,9 +60,11 @@ partial class MyMesh: MonoBehaviour {
             List<int> templist = FindTriangles(t,i);
             n[i]=TrianglesToNormals( templist, triNormals);
         }
-        //UpdateNormals(v, n);
+        UpdateNormals(v, n);
     }
-    LineSegment[] mNormals;
+
+
+    
     //initialize the cylinder on the sphere of each vertex
     void InitNormals(Vector3[] v, Vector3[] n)
     {
@@ -68,6 +78,8 @@ partial class MyMesh: MonoBehaviour {
         }
         UpdateNormals(v, n);
     }
+
+
     void UpdateNormals(Vector3[] v, Vector3[] n)
     {
         for (int i = 0; i < v.Length; i++)
