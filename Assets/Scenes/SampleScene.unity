@@ -225,6 +225,7 @@ MonoBehaviour:
   mCamera: {fileID: 534669906}
   mMesh: {fileID: 1630889890}
   mWorld: {fileID: 1550676046}
+  mMeshController: {fileID: 685784252}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
