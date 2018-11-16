@@ -61,7 +61,7 @@ public class VertexTranslate : MonoBehaviour
         delta *= moveMagnifier;
         //Debug.Log(delta);
         // move vertex
-        this.transform.localPosition += delta;
+        this.transform.parent.localPosition += delta;
     }
 
     public void LMBRelease()

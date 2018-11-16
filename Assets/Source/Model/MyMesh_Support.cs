@@ -87,4 +87,20 @@ partial class MyMesh: MonoBehaviour {
             mNormals[i].SetEndPoints(v[i], v[i] + 1.0f * n[i]);
         }
     }
+
+	public void DisableNormals()
+	{
+		for (int i = 0; i < mNormals.Length; i++)
+		{
+			mNormals[i].transform.gameObject.SetActive(false);
+		}
+	}
+
+	public void EnableNormals()
+	{
+		for (int i = 0; i < mNormals.Length; i++)
+		{
+			mNormals[i].transform.gameObject.SetActive(true);
+		}
+	}
 }

@@ -10,7 +10,10 @@ public partial class MyMesh : MonoBehaviour {
     private Mesh theMesh = null;
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
+	    Debug.Assert(mControllerPrefab != null);
+
         theMesh = GetComponent<MeshFilter>().mesh;
         InitializeMeshQuad();
 

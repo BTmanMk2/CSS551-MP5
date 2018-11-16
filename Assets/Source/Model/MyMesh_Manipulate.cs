@@ -3,30 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 
 partial class MyMesh : MonoBehaviour {
-    GameObject[] mControllers;
-
+    VertexController[] mControllers;
+	public GameObject mControllerPrefab = null;
 
     void InitControllers(Vector3[] v)
     {
-        mControllers = new GameObject[v.Length];
+        mControllers = new VertexController[v.Length];
         for (int i = 0; i < v.Length; i++)
         {
-            mControllers[i] = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            mControllers[i].transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+	        GameObject temp = Instantiate(mControllerPrefab);
+            //mControllers[i] = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            temp.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 
-            mControllers[i].transform.localPosition = v[i];
-            mControllers[i].transform.parent = this.transform;
+            temp.transform.localPosition = v[i];
+            temp.transform.parent = this.transform;
+	        mControllers[i] = temp.GetComponent<VertexController>();
         }
     }
 
 
-	public void VertexCtrlOn()
+	public void DisableControllers()
 	{
-
+		for (int i = 0; i < mControllers.Length; i++)
+		{
+			mControllers[i].DisableController();
+		}
 	}
 
-	public void VertexCtrlOff()
+	public void EnableControllers()
 	{
-
+		for (int i = 0; i < mControllers.Length; i++)
+		{
+			mControllers[i].EnableController();
+		}
 	}
 }

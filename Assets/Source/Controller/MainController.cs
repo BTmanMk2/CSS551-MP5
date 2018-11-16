@@ -10,6 +10,7 @@ public class MainController : MonoBehaviour
     private Camera mCamera4RayCast;
 
     public MyMesh mMesh;
+	public TheWorld mWorld;
 
     // selected mover
     private VertexTranslate mSelectedVertexTranslate;
@@ -19,6 +20,7 @@ public class MainController : MonoBehaviour
     {
         Debug.Assert(mCamera != null);
         Debug.Assert(mMesh!=null);
+	    Debug.Assert(mWorld != null);
         mCamera4RayCast = mCamera.GetComponent<Camera>();
     }
 
@@ -77,7 +79,8 @@ public class MainController : MonoBehaviour
         // L CTRL vertices ctrl switch
         if (Input.GetKey(KeyCode.LeftControl))
         {
-            mMesh.VertexCtrlOn();
+            mMesh.EnableControllers();
+			mMesh.EnableNormals();
 
             if (EventSystem.current.IsPointerOverGameObject())
             {
@@ -99,11 +102,12 @@ public class MainController : MonoBehaviour
                 {
                     GameObject hitObject = hitInfo.transform.gameObject;
 
-                    VertexNode vNode = hitObject.GetComponent<VertexNode>();
+                    VertexController vController = hitObject.GetComponent<VertexController>();
                     // click on vertex ctrl
-                    if (vNode != null)
+                    if (vController != null)
                     {
                         // switch mover on
+	                    mWorld.AssignMover(vController);
                     }
 
                     // click on mover axis
@@ -133,7 +137,7 @@ public class MainController : MonoBehaviour
                 else
                 {
                     // switch mover off
-
+					mWorld.AssignMover();
                 }
             }
             // drag support
@@ -170,7 +174,8 @@ public class MainController : MonoBehaviour
         // release LCTRL
         else
         {
-            mMesh.VertexCtrlOff();
+            mMesh.DisableControllers();
+			mMesh.DisableNormals();
         }
     }
 }
