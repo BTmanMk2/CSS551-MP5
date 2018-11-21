@@ -16,10 +16,10 @@ public class LineSegment : MonoBehaviour
         ComputeLineDetails();
     }
 
-    public virtual void SetEndPoints(Vector3 p1, Vector3 P2)
+    public virtual void SetEndPoints(Vector3 p1, Vector3 p2)
     {
         mP1 = p1;
-        mP2 = P2;
+        mP2 = p2;
         ComputeLineDetails();
     }
 

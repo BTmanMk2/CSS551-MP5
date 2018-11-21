@@ -8,30 +8,31 @@ public class MainController : MonoBehaviour
 
     public MyCamera mCamera;
     private Camera mCamera4RayCast;
-
-    public MyMesh mMesh;
 	public TheWorld mWorld;
 
 	public MeshController mMeshController;
 
-    // selected mover
-    private VertexTranslate mSelectedVertexTranslate;
+	private MyMesh mActiveMesh;
+	// selected mover
+	private VertexTranslate mSelectedVertexTranslate;
 
     // Use this for initialization
     void Start()
     {
         Debug.Assert(mCamera != null);
-        Debug.Assert(mMesh!=null);
 	    Debug.Assert(mWorld != null);
 	    Debug.Assert(mMeshController != null);
         mCamera4RayCast = mCamera.GetComponent<Camera>();
-		mMeshController.SetSelectedMesh(mMesh);
-    }
+	    mActiveMesh = mWorld.GetActiveMesh();
+	    mMeshController.SetSelectedMesh(mActiveMesh);
+
+	}
 
     // Update is called once per frame
     void Update()
     {
-        ProcessMouseEvent();
+	    
+		ProcessMouseEvent();
     }
 
     void ProcessMouseEvent()
@@ -83,8 +84,8 @@ public class MainController : MonoBehaviour
         // L CTRL vertices ctrl switch
         if (Input.GetKey(KeyCode.LeftControl))
         {
-            mMesh.EnableControllers();
-			mMesh.EnableNormals();
+            mActiveMesh.EnableControllers();
+			mActiveMesh.EnableNormals();
 
             if (EventSystem.current.IsPointerOverGameObject())
             {
@@ -178,8 +179,14 @@ public class MainController : MonoBehaviour
         // release LCTRL
         else
         {
-            mMesh.DisableControllers();
-			mMesh.DisableNormals();
+            mActiveMesh.DisableControllers();
+			mActiveMesh.DisableNormals();
         }
     }
+
+	public void UpdateActiveMesh()
+	{
+		mActiveMesh = mWorld.GetActiveMesh();
+		mMeshController.SetSelectedMesh(mActiveMesh);
+	}
 }

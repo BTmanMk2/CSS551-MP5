@@ -86,6 +86,7 @@ partial class MyMesh: MonoBehaviour {
         for (int i = 0; i < v.Length; i++)
         {
             mNormals[i].SetEndPoints(v[i], v[i] + 1.0f * n[i]);
+			mControllers[i].SetEndPoints(v[i], v[i] + 1.0f * n[i]);
         }
     }
 
