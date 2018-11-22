@@ -20,6 +20,19 @@ partial class MyMesh : MonoBehaviour {
             temp.transform.parent = this.transform;
 	        mControllers[i] = temp.GetComponent<VertexController>();
         }
+
+		// Cylinder
+	    if (mType == MeshType.Cylinder)
+	    {
+		    for (int i = 0; i < mControllers.Length; i++)
+		    {
+			    int k = i % (xSize + 1);
+			    if (k != 0) // not first column
+			    {
+				    mControllers[i].SetUnavailable();
+			    }
+		    }
+	    }
     }
 
 	void ClearControllers()
@@ -70,16 +83,21 @@ partial class MyMesh : MonoBehaviour {
 			int k = i % (xSize+1);
 			if (k == 0)	// first column
 			{
+				int row = i / (xSize + 1);
 				// radius
-				d = mControllers[k].transform.localPosition.x - 0f;
-				rads[k] = d;
+				Vector2 radius=new Vector2(0,0);
+				radius.x = mControllers[i].transform.localPosition.x;
+				radius.y = mControllers[i].transform.localPosition.z;
+
+				d = (radius - Vector2.zero).magnitude;
+				rads[row] = d;
 				continue;
 			}
 			Vector3 xz = new Vector3(mControllers[i].transform.localPosition.x,
 								0f,
 					mControllers[i].transform.localPosition.z).normalized;
 			xz = xz * d;
-			xz.y = mControllers[i].transform.position.y;
+			xz.y = mControllers[i-k].transform.position.y;
 			mControllers[i].transform.localPosition = xz;
 		}
 	}

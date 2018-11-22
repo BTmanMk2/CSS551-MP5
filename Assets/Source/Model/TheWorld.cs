@@ -20,6 +20,9 @@ public class TheWorld : MonoBehaviour
 		Debug.Assert(mMeshQuad!=null);
 		Debug.Assert(mMeshCylinder!=null);
 		mQuadVertexMover.SetActive(false);
+		mCylinderVertexMover.SetActive(false);
+
+		mMeshCylinder.gameObject.SetActive(false);
 	}
 	
 	// Update is called once per frame
@@ -29,27 +32,57 @@ public class TheWorld : MonoBehaviour
 
 	public void AssignMover(VertexController ctrller)
 	{
-		mQuadVertexMover.SetActive(true);
-
-		// if quad or cylinder
-		if (prevQuadCtrller)
+		if (ctrller.mType == MyMesh.MeshType.Quad)	// quad vertex
 		{
-			prevQuadCtrller.Unselected();
-		}
-		prevQuadCtrller = ctrller;
+			mQuadVertexMover.SetActive(true);
 
-		ctrller.Selected(mQuadVertexMover);
+			// if quad or cylinder
+			if (prevQuadCtrller)
+			{
+				prevQuadCtrller.Unselected();
+			}
+			prevQuadCtrller = ctrller;
+
+			ctrller.Selected(mQuadVertexMover);
+		}
+		else
+		{
+			mCylinderVertexMover.SetActive(true);
+			if (prevCylinderCtrller)
+			{
+				prevCylinderCtrller.Unselected();
+			}
+			prevCylinderCtrller = ctrller;
+
+			ctrller.Selected(mCylinderVertexMover);
+		}
+		
+		
 		
 	}
 
 	public void AssignMover()
 	{
-		mQuadVertexMover.SetActive(false);
-		if (prevQuadCtrller)
+		MyMesh.MeshType type = GetActiveMesh().mType;
+		if (type == MyMesh.MeshType.Quad)
 		{
-			prevQuadCtrller.Unselected();
-			prevQuadCtrller = null;
+			mQuadVertexMover.SetActive(false);
+			if (prevQuadCtrller)
+			{
+				prevQuadCtrller.Unselected();
+				prevQuadCtrller = null;
+			}
 		}
+		else
+		{
+			mCylinderVertexMover.SetActive(false);
+			if (prevCylinderCtrller)
+			{
+				prevCylinderCtrller.Unselected();
+				prevCylinderCtrller = null;
+			}
+		}
+		
 		
 	}
 

@@ -11,6 +11,8 @@ public class VertexController : MonoBehaviour
 
 	public bool mAvailable = true;
 
+	public MyMesh.MeshType mType=MyMesh.MeshType.Quad;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -72,5 +74,11 @@ public class VertexController : MonoBehaviour
 		//float ml = (p2 - p1).magnitude;
 		Quaternion q = Quaternion.FromToRotation(Vector3.up, mv);
 		transform.localRotation = q;
+	}
+
+	public void SetUnavailable()
+	{
+		mAvailable = false;
+		this.GetComponent<Renderer>().material.color = Color.black;
 	}
 }

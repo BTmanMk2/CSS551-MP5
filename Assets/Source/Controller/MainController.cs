@@ -11,21 +11,24 @@ public class MainController : MonoBehaviour
 	public TheWorld mWorld;
 
 	public MeshController mMeshController;
+	public XfromControl mXFormController;
 
 	private MyMesh mActiveMesh;
 	// selected mover
 	private VertexTranslate mSelectedVertexTranslate;
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         Debug.Assert(mCamera != null);
 	    Debug.Assert(mWorld != null);
 	    Debug.Assert(mMeshController != null);
+		Debug.Assert(mXFormController!=null);
         mCamera4RayCast = mCamera.GetComponent<Camera>();
 	    mActiveMesh = mWorld.GetActiveMesh();
 	    mMeshController.SetSelectedMesh(mActiveMesh);
-
+		// quad
+		mXFormController.SetSelectedObject(mWorld.GetQuad());
 	}
 
     // Update is called once per frame
@@ -42,6 +45,7 @@ public class MainController : MonoBehaviour
         {
             if (EventSystem.current.IsPointerOverGameObject())
             {
+				
                 return;
             }
 
@@ -89,7 +93,9 @@ public class MainController : MonoBehaviour
 
             if (EventSystem.current.IsPointerOverGameObject())
             {
-                return;
+	            //mActiveMesh.DisableControllers();
+	            //mActiveMesh.DisableNormals();
+				return;
             }
 
             
@@ -188,5 +194,7 @@ public class MainController : MonoBehaviour
 	{
 		mActiveMesh = mWorld.GetActiveMesh();
 		mMeshController.SetSelectedMesh(mActiveMesh);
+		mMeshController.ObjectSetSliders(mActiveMesh.xSize,
+			mActiveMesh.ySize, mActiveMesh.mType);
 	}
 }

@@ -6,6 +6,7 @@ public class MeshController : MonoBehaviour
 {
 
 	public SliderWithEcho mMeshX, mMeshY;
+	public TheWorld mWorld;
 
 	private MyMesh mMesh;
 
@@ -14,6 +15,7 @@ public class MeshController : MonoBehaviour
 	{
 		Debug.Assert(mMeshX != null);
 		Debug.Assert(mMeshY != null);
+		Debug.Assert(mWorld != null);
 
 		mMeshX.SetSliderListener(XValueChanged);
 		mMeshY.SetSliderListener(YValueChanged);
@@ -33,10 +35,12 @@ public class MeshController : MonoBehaviour
 
 	void InitSliders()
 	{
-		mMeshX.InitSliderRange(4, 20, 4);
 		mMeshX.TheSlider.wholeNumbers = true;
-		mMeshY.InitSliderRange(4, 20, 4);
+		mMeshX.InitSliderRange(1, 19, 4);
+
 		mMeshY.TheSlider.wholeNumbers = true;
+		mMeshY.InitSliderRange(1, 19, 4);
+		
 	}
 
 	void XValueChanged(float v)
@@ -44,6 +48,7 @@ public class MeshController : MonoBehaviour
 		if (mMesh)
 		{
 			mMesh.SetXSize((int)v);
+			mWorld.AssignMover();
 		}
 	}
 
@@ -52,6 +57,21 @@ public class MeshController : MonoBehaviour
 		if (mMesh)
 		{
 			mMesh.SetYSize((int)v);
+			mWorld.AssignMover();
+		}
+	}
+
+	public void ObjectSetSliders(int x, int y, MyMesh.MeshType type)
+	{
+		if (type == MyMesh.MeshType.Quad)
+		{
+			mMeshX.InitSliderRange(1, 19, x);
+			mMeshY.InitSliderRange(1, 19, y);
+		}
+		else
+		{
+			mMeshX.InitSliderRange(3, 19, x);
+			mMeshY.InitSliderRange(3, 19, y);
 		}
 		
 	}

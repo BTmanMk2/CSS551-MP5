@@ -8,7 +8,7 @@ public class XfromControl : MonoBehaviour {
     public SliderWithEcho X, Y, Z;
     public Text ObjectName;
 
-    private GameObject mSelected;
+    private MyMesh mSelected;
     private Vector3 mPreviousSliderValues = Vector3.zero;
 
 	// Use this for initialization
@@ -30,32 +30,51 @@ public class XfromControl : MonoBehaviour {
     // Initialize slider bars to specific function
     void SetToTranslation(bool v)
     {
-        Vector3 p = ReadObjectXfrom();
-        mPreviousSliderValues = p;
-        X.InitSliderRange(-20, 20, p.x);
-        Y.InitSliderRange(-20, 20, p.y);
-        Z.InitSliderRange(-20, 20, p.z);
+	    if (T.isOn)
+	    {
+		    Vector3 p = ReadObjectXfrom();
+		    mPreviousSliderValues = p;
+		    X.InitSliderRange(-4, 4, p.x);
+		    Y.InitSliderRange(-4, 4, p.y);
+		    Z.InitSliderRange(0, 1, 0);
+		    Z.TheSlider.enabled = false;
+		}
     }
 
     void SetToScaling(bool v)
     {
-        Vector3 s = ReadObjectXfrom();
-        mPreviousSliderValues = s;
-        X.InitSliderRange(0.1f, 20, s.x);
-        Y.InitSliderRange(0.1f, 20, s.y);
-        Z.InitSliderRange(0.1f, 20, s.z);
-    }
+	    if (S.isOn)
+	    {
+		    Vector3 s = ReadObjectXfrom();
+		    mPreviousSliderValues = s;
+		    X.InitSliderRange(0.1f, 10, s.x);
+		    Y.InitSliderRange(0.1f, 10, s.y);
+		    Z.InitSliderRange(0, 1, 0);
+		    Z.TheSlider.enabled = false;
+		}
+        
+	}
 
-    void SetToRotation(bool v)
-    {
-        Vector3 r = ReadObjectXfrom();
-        mPreviousSliderValues = r;
-        X.InitSliderRange(-180, 180, r.x);
-        Y.InitSliderRange(-180, 180, r.y);
-        Z.InitSliderRange(-180, 180, r.z);
-        mPreviousSliderValues = r;
-    }
-    //---------------------------------------------------------------------------------
+	void SetToRotation(bool v)
+	{
+		if (R.isOn)
+		{
+			Vector3 r = ReadObjectXfrom();
+			mPreviousSliderValues = r;
+			X.InitSliderRange(0, 1, 0);
+			Y.InitSliderRange(0, 1, 0);
+			X.TheSlider.enabled = false;
+			Y.TheSlider.enabled = false;
+			Z.InitSliderRange(-180, 180, r.z);
+			mPreviousSliderValues = r;
+		}
+		else
+		{
+			mSelected.UnselectRotation();
+		}
+		
+	}
+	//---------------------------------------------------------------------------------
 
     //---------------------------------------------------------------------------------
     // resopond to sldier bar value changes
@@ -94,15 +113,17 @@ public class XfromControl : MonoBehaviour {
     //---------------------------------------------------------------------------------
 
     // new object selected
-    public void SetSelectedObject(GameObject g)
+    public void SetSelectedObject(MyMesh g)
     {
         mSelected = g;
         mPreviousSliderValues = Vector3.zero;
-        if (g != null)
+		/*if (g != null)
             ObjectName.text = "Selected:" + g.name;
         else
-            ObjectName.text = "Selected: none";
-        ObjectSetUI();
+            ObjectName.text = "Selected: none";*/
+	    ObjectName.text = "Selected: Texture";
+
+		ObjectSetUI();
     }
 
     public void ObjectSetUI()
@@ -120,14 +141,14 @@ public class XfromControl : MonoBehaviour {
         if (T.isOn)
         {
             if (mSelected != null)
-                p = mSelected.transform.localPosition;
+                p = mSelected.GetTexTranslation();
             else
                 p = Vector3.zero;
         }
         else if (S.isOn)
         {
             if (mSelected != null)
-                p = mSelected.transform.localScale;
+                p = mSelected.GetTexScale();
             else
                 p = Vector3.one;
         }
@@ -145,14 +166,14 @@ public class XfromControl : MonoBehaviour {
 
         if (T.isOn)
         {
-            mSelected.transform.localPosition = p;
+            mSelected.SetTexTranlation(p);
         }
         else if (S.isOn)
         {
-            mSelected.transform.localScale = p;
+            mSelected.SetTexScale(p);
         } else
         {
-            mSelected.transform.localRotation *= q;
+            mSelected.SetTexRotation(p);
         }
     }
 }

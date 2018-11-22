@@ -17,18 +17,20 @@ public partial class MyMesh : MonoBehaviour {
     public int ySize = 4;
 
 	// w&h for quad
-	int width = 5;
-	int height = 5;
+	int width = 9;
+	int height = 9;
 
 	// height and radius for cylinder
 	public float Theta = 90f;
 	private float defaultRadius = 3f;
 	private float[] rads;
+	private int cHeight = 6;
 
 	protected Mesh theMesh = null;
+	private Vector2[] originUV;
 
     // Use this for initialization
-    void Awake ()
+    void Awake()
     {
 	    Debug.Assert(mControllerPrefab != null);
         theMesh = GetComponent<MeshFilter>().mesh;
@@ -58,9 +60,22 @@ public partial class MyMesh : MonoBehaviour {
         ComputeNormals(v, t, n);
         theMesh.vertices = v;
         theMesh.normals = n;
-	    if (mType == MeshType.Cylinder)
+	    if (mType == MeshType.Quad)
+	    {
+			// uv update
+		    Vector2[] uv = theMesh.uv;
+		    QuadTextureTRS(ref uv);
+		    theMesh.uv = uv;
+
+	    }
+	    else if (mType == MeshType.Cylinder)
 	    {
 			UpdateRadius();
+		    if (Mathf.Abs(Theta - 360) <= float.Epsilon)
+		    {
+				// TODO
+				//ReconcileNormals();
+		    }
 	    }
     }
 

@@ -39,7 +39,7 @@ partial class MyMesh : MonoBehaviour
 
 	void ThetaRotation(ref Vector3[] v)
 	{
-		float yUnit = (float)height / (float)ySize;
+		float yUnit = (float)cHeight / (float)ySize;
 		float thetaUnit = (float)Theta / (float)xSize;
 		for (int i = 0; i <= xSize; i++)
 		{
@@ -75,5 +75,24 @@ partial class MyMesh : MonoBehaviour
 		}
 
 		theMesh.vertices = v;
+		InitControllers(v);
+		Vector3[] n = theMesh.normals;
+		InitNormals(v, n);
+	}
+
+	public void ReconcileNormals()
+	{
+		Vector3[] n = theMesh.normals;
+		for (int i = 0; i <= ySize; i++)
+		{
+			Vector3 first = n[i * (xSize + 1)];
+			Vector3 last = n[(i+1) * (xSize + 1) - 1];
+			Vector3 reconcile = (first + last) / 2.0f;
+			n[i * (xSize + 1)] = reconcile;
+			n[(i + 1) * (xSize + 1) - 1] = reconcile;
+		}
+
+		theMesh.normals = n;
+		InitNormals(theMesh.vertices,theMesh.normals);
 	}
 }

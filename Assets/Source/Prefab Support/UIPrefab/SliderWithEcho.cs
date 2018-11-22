@@ -30,7 +30,15 @@ public class SliderWithEcho : MonoBehaviour {
     // GUI element changes the object
 	void SliderValueChange(float v)
     {
-        TheEcho.text = v.ToString("0.0000");
+	    if (TheSlider.wholeNumbers)
+	    {
+		    TheEcho.text = v.ToString("0");
+
+		}
+	    else
+	    {
+		    TheEcho.text = v.ToString("0.0000");
+		}
         // Debug.Log("SliderValueChange: " + v);
         if (mCallBack != null)
             mCallBack(v);
@@ -41,6 +49,7 @@ public class SliderWithEcho : MonoBehaviour {
     public void SetSliderValue(float v) { TheSlider.value = v; SliderValueChange(v); }
     public void InitSliderRange(float min, float max, float v)
     {
+	    TheSlider.enabled = true;
         TheSlider.minValue = min;
         TheSlider.maxValue = max;
         SetSliderValue(v);
