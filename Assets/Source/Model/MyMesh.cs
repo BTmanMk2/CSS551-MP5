@@ -73,8 +73,8 @@ public partial class MyMesh : MonoBehaviour {
 			UpdateRadius();
 		    if (Mathf.Abs(Theta - 360) <= float.Epsilon)
 		    {
-				// TODO
-				//ReconcileNormals();
+				
+				ReconcileNormals();
 		    }
 	    }
     }

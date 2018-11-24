@@ -115,7 +115,7 @@ public class MainController : MonoBehaviour
 
                     VertexController vController = hitObject.GetComponent<VertexController>();
                     // click on vertex ctrl
-                    if (vController != null)
+                    if (vController != null && vController.mAvailable)
                     {
                         // switch mover on
 	                    mWorld.AssignMover(vController);

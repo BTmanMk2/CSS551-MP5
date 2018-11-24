@@ -75,14 +75,15 @@ partial class MyMesh : MonoBehaviour
 		}
 
 		theMesh.vertices = v;
-		InitControllers(v);
+		UpdateControllers(v);
 		Vector3[] n = theMesh.normals;
-		InitNormals(v, n);
+		UpdateNormals(v, n);
 	}
 
 	public void ReconcileNormals()
 	{
 		Vector3[] n = theMesh.normals;
+		// iterate rows
 		for (int i = 0; i <= ySize; i++)
 		{
 			Vector3 first = n[i * (xSize + 1)];
@@ -93,6 +94,7 @@ partial class MyMesh : MonoBehaviour
 		}
 
 		theMesh.normals = n;
-		InitNormals(theMesh.vertices,theMesh.normals);
+		UpdateNormals(theMesh.vertices, theMesh.normals);
+		//InitNormals(theMesh.vertices,theMesh.normals);
 	}
 }

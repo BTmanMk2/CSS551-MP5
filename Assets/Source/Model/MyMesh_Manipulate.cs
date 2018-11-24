@@ -35,6 +35,14 @@ partial class MyMesh : MonoBehaviour {
 	    }
     }
 
+	void UpdateControllers(Vector3[] v)
+	{
+		for(int i = 0; i < v.Length; i++)
+		{
+			mControllers[i].transform.localPosition = v[i];
+		}
+	}
+
 	void ClearControllers()
 	{
 		if (mControllers!=null)
